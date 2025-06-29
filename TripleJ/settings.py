@@ -22,11 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+if (DEBUG):
+    from dotenv import load_dotenv
+    load_dotenv()
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 ALLOWED_HOSTS = ['triple-j.onrender.com', '127.0.0.1', '*']
 
@@ -181,6 +184,12 @@ GS_BUCKET_NAME = 'triple-j-files'
 
 DBBACKUP_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': 'backup/'}
+DBBACKUP_CONNECTORS = {
+    'default': {
+        'DROP':True,
+        'SINGLE_TRANSACTION': False
+    }
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

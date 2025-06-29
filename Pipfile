@@ -41,6 +41,7 @@ django-storages = {extras = ["google"], version = "*"}
 django-dbbackup = "*"
 django-cron = "*"
 reportlab = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
