@@ -10,6 +10,8 @@ from sales.models import Sale
 from sales.serializers import SaleSerializer
 from gym.models import ProgramWorkout
 from django.utils.timezone import now
+from django.http import FileResponse
+from analytics.report import Report
 
 def objectsThisMonth(_object, month, **kwargs):
     objects = []
@@ -60,9 +62,20 @@ class SalesReportView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
     def get(self, request:Request, month:int) -> Response:
-        sales = []
-        for sale in Sale.objects.all():
-            if sale.date.month == month:
-                sales.append(sale)
-        return Response(SaleSerializer(sales, many=True).data, status=status.HTTP_200_OK)
+        return Response(SaleSerializer(objectsThisMonth(Sale, month), many=True).data, status=status.HTTP_200_OK)
+
+
+class PrintReportView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get(self, request:Request, month:int) -> Response:
+        report = Report('temp-report.pdf', self.request.user.username, month)
+        if (request.query_params.get('sales-report')):
+            report.create_sales()
+        if (request.query_params.get('attendance-report')):
+            report.create_attendance()
+        if (request.query_params.get('busy-activity')):
+            report.create_busy_activity()
+        report.save()
+        return FileResponse(open('temp-report.pdf', 'rb'), filename=f'Executive_Report_{now().isoformat()}.pdf')
 
