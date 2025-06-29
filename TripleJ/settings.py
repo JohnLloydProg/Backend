@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_ltan28p7(*t91xsuym!nqb8lt8vqwa@qm*tlp(0&8qv8zx0v6'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -114,7 +114,7 @@ WSGI_APPLICATION = 'TripleJ.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
-        default='postgresql://triple_j_database_user:kPT1zpMRhJvXrt9n923Kr6v5l8yNVSWk@dpg-d0qbisumcj7s73dt6b60-a.singapore-postgres.render.com/triple_j_database',
+        default=os.environ.get('DATABASE_URL'),
         conn_max_age=600
     )
 }
