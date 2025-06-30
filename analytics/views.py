@@ -70,11 +70,11 @@ class PrintReportView(generics.GenericAPIView):
 
     def get(self, request:Request, month:int) -> Response:
         report = Report('temp-report.pdf', self.request.user.username, month)
-        if (request.query_params.get('sales-report')):
+        if (request.query_params.get('sales-report', 'False') == 'True'):
             report.create_sales()
-        if (request.query_params.get('attendance-report')):
+        if (request.query_params.get('attendance-report', 'False') == 'True'):
             report.create_attendance()
-        if (request.query_params.get('busy-activity')):
+        if (request.query_params.get('busy-activity', 'False') == 'True'):
             report.create_busy_activity()
         report.save()
         return FileResponse(open('temp-report.pdf', 'rb'), filename=f'Executive_Report_{now().isoformat()}.pdf')
