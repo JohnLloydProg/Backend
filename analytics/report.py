@@ -49,7 +49,7 @@ class Report:
     def create_sales(self):
         #Sales
         self.canvas.setFont(FONTS.get('bold'), 16)
-        self.canvas.drawString(inch(1), -inch(2.7), "1. Sales")
+        self.canvas.drawString(inch(1), -inch(2.7), "Sales")
         self.canvas.setFont(FONTS.get('bold'), 12)
         self.canvas.drawCentredString(inch(1.8125), -inch(3.1), "Date Recorded")
         self.canvas.drawCentredString(inch(3.4375), -inch(3.1), "Amount")
@@ -95,7 +95,7 @@ class Report:
     
     def create_attendance(self):
         self.canvas.setFont(FONTS.get('bold'), 16)
-        self.canvas.drawString(inch(1), self.y-inch(0.5), "2. Attendances")
+        self.canvas.drawString(inch(1), self.y-inch(0.5), "Attendances")
         self.canvas.setFont(FONTS.get('bold'), 12)
         self.canvas.drawCentredString(inch(1.8125), self.y-inch(0.9), "Date Recorded")
         self.canvas.drawCentredString(inch(3.4375), self.y-inch(0.9), "Username")
@@ -127,7 +127,7 @@ class Report:
     
     def create_busy_activity(self):
         self.canvas.setFont(FONTS.get('bold'), 16)
-        self.canvas.drawString(inch(1), self.y-inch(0.5), "3. Peak Days & Hours")
+        self.canvas.drawString(inch(1), self.y-inch(0.5), "Peak Days & Hours")
         self.canvas.setFont(FONTS.get('bold'), 12)
         self.canvas.drawCentredString(inch(2.625), self.y-inch(0.9), "Peak Days (Ranked)")
         self.canvas.drawCentredString(inch(5.875), self.y-inch(0.9), "Peak Time In (Ranked)")
