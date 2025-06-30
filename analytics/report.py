@@ -38,6 +38,7 @@ class Report:
         self.canvas.drawString(inch(1), -inch(2.1), f"Date Generated: {date.today().isoformat()}")
         self.canvas.setStrokeColorRGB(0, 0, 0, 1)
         self.canvas.line(inch(1), -inch(2.3), inch(7.5), -inch(2.3))
+        self.y = -inch(2.1)
     
     def check_new_page(self):
         if (self.y < -inch(10)):
@@ -49,14 +50,14 @@ class Report:
     def create_sales(self):
         #Sales
         self.canvas.setFont(FONTS.get('bold'), 16)
-        self.canvas.drawString(inch(1), -inch(2.7), "Sales")
+        self.canvas.drawString(inch(1), self.y-inch(0.5), "Sales")
         self.canvas.setFont(FONTS.get('bold'), 12)
-        self.canvas.drawCentredString(inch(1.8125), -inch(3.1), "Date Recorded")
-        self.canvas.drawCentredString(inch(3.4375), -inch(3.1), "Amount")
-        self.canvas.drawCentredString(inch(5.875), -inch(3.1), "Receipt No.")
-        self.canvas.line(inch(1.1), -inch(3.23), inch(7.4), -inch(3.23))
+        self.canvas.drawCentredString(inch(1.8125), self.y-inch(0.9), "Date Recorded")
+        self.canvas.drawCentredString(inch(3.4375), self.y-inch(0.9), "Amount")
+        self.canvas.drawCentredString(inch(5.875), self.y-inch(0.9), "Receipt No.")
+        self.canvas.line(inch(1.1), self.y-inch(1.03), inch(7.4), self.y-inch(1.03))
         self.canvas.setFont(FONTS.get('normal'), 12)
-        self.y = -inch(3.1)
+        self.y -= inch(0.9)
         sales = 0
         for i, sale in enumerate(self.monthly_sales):
             self.y -= inch(0.4)
