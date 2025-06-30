@@ -63,4 +63,5 @@ class TimelineRecord(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
     height = models.FloatField(null=True, blank=True)
     weight = models.FloatField(null=True, blank=True)
+    notes = models.TextField(null=True, blank=True)
     img = models.ImageField(upload_to=timelineRecordPath, null=True, blank=True)

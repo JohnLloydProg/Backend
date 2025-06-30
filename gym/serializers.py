@@ -31,4 +31,4 @@ class ProgramWorkoutRecordSerializer(serializers.ModelSerializer):
 class TimelineRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = TimelineRecord
-        fields = ['id', 'date', 'height', 'weight', 'img']
+        fields = ['id', 'date', 'height', 'weight', 'img', 'notes']

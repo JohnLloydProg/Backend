@@ -278,7 +278,10 @@ class TimelineRecordsView(generics.GenericAPIView):
 
         if (not request.data):
             return Response('Does not contain information', status=status.HTTP_400_BAD_REQUEST)
-        record = TimelineRecord(member=member, height=request.data.get('height'), weight=request.data.get('weight'))
+        if (not request.data.get('weight') and not request.data.get('height')):
+            return Response('Please provide the necessary information (weight & height)', status=status.HTTP_400_BAD_REQUEST)
+
+        record = TimelineRecord(member=member, height=request.data.get('height'), weight=request.data.get('weight'), notes=request.data.get('notes'))
         img = request.data.get('img')
         if (img):
             record.img.save('image.jpg', ContentFile(base64.b64decode(img)))
