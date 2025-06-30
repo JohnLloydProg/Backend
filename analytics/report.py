@@ -118,9 +118,10 @@ class Report:
         self.canvas.setFont(FONTS.get('normal'), 12)
         self.canvas.drawCentredString(inch(3.4375), self.y-inch(0.4), str(len(self.monthly_attendances)))
         self.canvas.setFont(FONTS.get('bold'), 12)
-        self.canvas.drawCentredString(inch(5.0625), self.y-inch(0.4), "Busiest:")
-        self.canvas.setFont(FONTS.get('normal'), 12)
-        self.canvas.drawCentredString(inch(6.6875), self.y-inch(0.4), self.busiest_date())
+        if (len(self.monthly_attendances) > 0):
+            self.canvas.drawCentredString(inch(5.0625), self.y-inch(0.4), "Busiest:")
+            self.canvas.setFont(FONTS.get('normal'), 12)
+            self.canvas.drawCentredString(inch(6.6875), self.y-inch(0.4), self.busiest_date())
         self.y -= inch(0.5)
         self.check_new_page()
     
