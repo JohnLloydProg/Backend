@@ -136,7 +136,7 @@ class Report:
         self.y -= inch(0.9)
         days = self.ranked_days()
         hours = self.ranked_time_in()
-        for i in range(3):
+        for i in range(min(len(days), len(hours))):
             self.y -= inch(0.4)
             self.check_new_page()
             if (i < len(days)):
