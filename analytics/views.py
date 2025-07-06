@@ -13,20 +13,20 @@ from django.utils.timezone import now
 from django.http import FileResponse
 from analytics.report import Report
 
-def objectsThisMonth(_object, month, **kwargs):
+def objectsThisMonth(_object, year, month, **kwargs):
     objects = []
     for obj in _object.objects.filter(**kwargs):
-        if (obj.date.month == month):
+        if (obj.date.month == month and obj.date.year == year):
             objects.append(obj)
     return objects
 
 class PeakActivityView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
-    def get(self, request:Request, month:int) -> Response:
+    def get(self, request:Request, year:int, month:int) -> Response:
         hourRecords = {hour:0 for hour in range(0, 24)}
         hours = []
-        for attendance in objectsThisMonth(Attendance, month):
+        for attendance in objectsThisMonth(Attendance, year, month):
             if (attendance.timeOut):
                 hours.append((attendance.timeIn.hour, attendance.timeOut.hour))
         for inOut in hours:
@@ -34,7 +34,7 @@ class PeakActivityView(generics.GenericAPIView):
                 hourRecords[inHour] += 1
         
         dayRecords = {day:0 for day in range(7)}
-        days = [attendance.date.weekday() for attendance in objectsThisMonth(Attendance, month)]
+        days = [attendance.date.weekday() for attendance in objectsThisMonth(Attendance, year, month)]
         for day in days:
             dayRecords[day] += 1
         return Response({'hours': hourRecords, 'days': dayRecords}, status=status.HTTP_200_OK)
@@ -61,15 +61,15 @@ class MembersReportView(generics.GenericAPIView):
 class SalesReportView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
-    def get(self, request:Request, month:int) -> Response:
-        return Response(SaleSerializer(objectsThisMonth(Sale, month), many=True).data, status=status.HTTP_200_OK)
+    def get(self, request:Request, year:int, month:int) -> Response:
+        return Response(SaleSerializer(objectsThisMonth(Sale, year, month), many=True).data, status=status.HTTP_200_OK)
 
 
 class PrintReportView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
-    def get(self, request:Request, month:int) -> Response:
-        report = Report('temp-report.pdf', self.request.user.username, month)
+    def get(self, request:Request, year:int, month:int) -> Response:
+        report = Report('temp-report.pdf', self.request.user.username, year, month)
         if (request.query_params.get('sales-report', 'False') == 'True'):
             report.create_sales()
         if (request.query_params.get('attendance-report', 'False') == 'True'):
