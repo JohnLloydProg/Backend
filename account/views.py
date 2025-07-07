@@ -291,7 +291,7 @@ class SuccessfulPaymentView(generics.GenericAPIView):
         membership.extendExpirationDate()
         membership.save()
 
-        sales = Sale(amount=membership.membershipType.price, description=membership.membershipType.name, receipt_no=memberCheckout.checkoutId)
+        sales = Sale(amount=membership.membershipType.price, description=f"Membership {membership.membershipType.name}", receipt_no=memberCheckout.checkoutId)
         sales.save()
 
         memberCheckout.delete()
@@ -314,6 +314,8 @@ class SubscriptionExtensionView(generics.GenericAPIView):
         if (membership.membershipType.subscription):
             membership.extendExpirationDate()
             membership.save()
+            sale = Sale(amount=membership.membershipType.price, description=f"Membership {membership.membershipType.name}")
+            sale.save()
             return Response('Membership successfully extended', status=status.HTTP_200_OK)
         else:
             return Response('Membership is not a subscription type', status=status.HTTP_400_BAD_REQUEST)
