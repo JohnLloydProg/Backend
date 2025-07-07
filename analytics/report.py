@@ -92,7 +92,8 @@ class Report:
             sale:Sale = sale
             self.canvas.drawCentredString(inch(1.8125), self.y, sale.date.isoformat())
             self.canvas.drawCentredString(inch(3.4375), self.y, f'P{str(sale.amount)}')
-            self.canvas.drawCentredString(inch(5.875), self.y, sale.receipt_no)
+            if (sale.receipt_no):
+                self.canvas.drawCentredString(inch(5.875), self.y, sale.receipt_no)
             sales += sale.amount
         self.canvas.line(inch(1.1), self.y-inch(0.13), inch(7.4), self.y-inch(0.13))
         self.canvas.setFont(FONTS.get('bold'), 12)
