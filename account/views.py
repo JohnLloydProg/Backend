@@ -135,11 +135,43 @@ class AccountRegistrationContView(generics.GenericAPIView):
 
         return Response('Account successfully registered!', status=status.HTTP_202_ACCEPTED)
 
-class MemberView(generics.RetrieveUpdateAPIView):
+
+class MemberView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = MemberSerializer
     queryset = Member.objects.all()
     lookup_field = 'username'
+
+    def get(self, request:Request, username:str) -> Response:
+        try:
+            member = Member.objects.get(username=username)
+        except Member.DoesNotExist:
+            return Response('Member does not exist!', status=status.HTTP_404_NOT_FOUND)
+
+        response = MemberSerializer(member).data
+        if (member.gymTrainer):
+            gymTrainer = Member.objects.get(pk=member.gymTrainer)
+            response['gymTrainer'] = gymTrainer.username
+        return Response(response, status=status.HTTP_200_OK)
+    
+    def put(self, request:Request, username:str) -> Response:
+        try:
+            member = Member.objects.get(username=username)
+        except Member.DoesNotExist:
+            return Response('Member does not exist!', status=status.HTTP_404_NOT_FOUND)
+        
+        for key, value in request.data.items():
+            if (hasattr(member, key)):
+                setattr(member, key, value)
+            else:
+                return Response(f'Member does not have the attribute {key}', status=status.HTTP_400_BAD_REQUEST)
+        member.save()
+
+        response = MemberSerializer(member).data
+        if (member.gymTrainer):
+            gymTrainer = Member.objects.get(pk=member.gymTrainer)
+            response['gymTrainer'] = gymTrainer.username
+        return Response(response, status=status.HTTP_200_OK)
 
 
 class TrainerView(generics.RetrieveAPIView):
