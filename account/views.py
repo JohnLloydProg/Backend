@@ -292,3 +292,24 @@ class SuccessfulPaymentView(generics.GenericAPIView):
 
         memberCheckout.delete()
         return Response("You have successfully paid the membership!", status=status.HTTP_200_OK)
+
+
+class SubscriptionExtensionView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def post(self, request:Request, username:str) -> Response:
+        try:
+            member = Member.objects.get(username=username)
+        except Member.DoesNotExist:
+            return Response('Member does not exist', status=status.HTTP_404_NOT_FOUND)
+        try:
+            membership = Membership.objects.get(member=member)
+        except Membership.DoesNotExist:
+            return Response('Member does not have a membership', status=status.HTTP_404_NOT_FOUND)
+
+        if (membership.membershipType.subscription):
+            membership.extendExpirationDate()
+            membership.save()
+            return Response('Membership successfully extended', status=status.HTTP_200_OK)
+        else:
+            return Response('Membership is not a subscription type', status=status.HTTP_400_BAD_REQUEST)
