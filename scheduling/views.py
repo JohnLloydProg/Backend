@@ -43,7 +43,7 @@ class NextScheduleView(generics.GenericAPIView):
         schedules = []
         for schedule in scheduleObjects:
             if now() <= schedule.datetime:
-                schedules.append(schedules)
+                schedules.append(schedule)
         return Response(ScheduleSerializer(schedules[0]).data, status=status.HTTP_200_OK)
 
 
