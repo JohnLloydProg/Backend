@@ -62,7 +62,7 @@ class SalesReportView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
 
     def get(self, request:Request, year:int, month:int) -> Response:
-        return Response(SaleSerializer(objectsThisMonth(Sale, year, month), many=True).data, status=status.HTTP_200_OK)
+        return Response(SaleSerializer(Sale.objects.filter(date__year=year, date__month=month).order_by('-date'), many=True).data, status=status.HTTP_200_OK)
 
 
 class PrintReportView(generics.GenericAPIView):
