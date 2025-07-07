@@ -22,31 +22,58 @@ import os
 html = """
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
     <title>Email Verified</title>
-</head>
-<body style="font-family: 'Keania One', sans-serif;display: flex;justify-content: center;align-items: center;min-height: 100vh;
-background-color: #313030;margin: 0 auto;overflow: hidden;font-size: 20px;">
+    <!-- Google Fonts Link -->
+    <link href="https://fonts.googleapis.com/css2?family=Keania+One&display=swap" rel="stylesheet" />
+  </head>
+  <body style="margin:0; padding:0; background-color:#313030; font-family:'Keania One', sans-serif;">
 
-    <div class="container" style="text-align: center;background-color: #313030;padding: 20px;border-radius: 8px;
-    box-shadow: 0 0 10px rgba(49, 48, 48, 0.1);width: 100%;height: 100%;box-sizing: border-box;display: flex;
-    flex-direction: column;justify-content: center;align-items: center;">
-        <div class="checkmark-container" style="width: 80px;height: 80px;border-radius: 50%; background-color: #76D09C; 
-        display: flex; justify-content: center;align-items: center;margin-bottom: 20px;">
-            <div class="checkmark" style="width: 60%;height: 60%;">
-                <svg viewBox="0 0 52 52" preserveAspectRatio="xMidYMid meet">
-                    <path d="M4 32 L16 48 L48 8" style="fill: none;stroke: #fff; stroke-width: 8;stroke-linecap: round;stroke-linejoin: round;animation: checkmark 1s ease-in-out forwards;"/>
-                </svg>
-            </div>
-        </div>
-        <h1 style="color: #4CAF50;font-size: 2em;">Email Verified!</h1>
-        <p style="font-size: 1.1em;margin-bottom: 20px;color: #fff;max-width: 320px;">Your email address has been successfully verified.</p>
-        <a style="display: inline-block;padding: 10px 20px;background-color: #76D09C;color: #fff;text-decoration: none;border-radius: 5px;font-size: 1em;" href="{link}">Proceed to registration</a>
-    </div>
+    <!-- Main Table Wrapper -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#313030; width:100%; height:100%;">
+      <tr>
+        <td align="center" valign="middle" style="padding:40px 0;">
 
-</body>
+          <!-- Inner Container -->
+          <table cellpadding="0" cellspacing="0" border="0" style="max-width: 400px; background-color:#313030; text-align: center; border-radius: 8px; padding: 20px; width: 100%;">
+            <!-- Checkmark Circle -->
+            <tr>
+              <td align="center" style="padding-bottom: 20px;">
+                <div style="width:80px; height:80px; background-color:#76D09C; border-radius:50%; text-align:center; line-height:80px; display:inline-block;">
+                  <img src="https://img.icons8.com/ios-filled/50/ffffff/checkmark.png" alt="Checkmark" width="40" height="40" style="vertical-align:middle;" />
+                </div>
+              </td>
+            </tr>
+
+            <!-- Heading -->
+            <tr>
+              <td style="color:#4CAF50; font-size:2em; font-family:'Keania One', sans-serif; padding-bottom:10px;">
+                Email Verified!
+              </td>
+            </tr>
+
+            <!-- Paragraph -->
+            <tr>
+              <td style="color:#ffffff; font-size:1.1em; font-family:'Keania One', sans-serif; max-width:320px; padding: 0 10px 20px;">
+                Your email address has been successfully verified.
+              </td>
+            </tr>
+
+            <!-- CTA Button -->
+            <tr>
+              <td align="center">
+                <a href="{link}" style="display:inline-block; padding:10px 20px; background-color:#76D09C; color:#ffffff; text-decoration:none; border-radius:5px; font-size:1em; font-family:'Keania One', sans-serif;">
+                  Proceed to registration
+                </a>
+              </td>
+            </tr>
+          </table>
+
+        </td>
+      </tr>
+    </table>
+  </body>
 </html>
 """
 
