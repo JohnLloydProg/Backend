@@ -102,14 +102,18 @@ class AccountRegistrationView(generics.GenericAPIView):
         except MembershipType.DoesNotExist:
             return Response('Membership Type does not exist!', status=status.HTTP_404_NOT_FOUND)
 
-        member = Member(username=username, email=email)
-        member.set_password(password)
-        member.save()
+        try:
+            member = Member.objects.get(username=username)
+            return Response('Username already exists', status=status.HTTP_409_CONFLICT)
+        except Member.DoesNotExist:
+            member = Member(username=username, email=email)
+            member.set_password(password)
+            member.save()
 
-        membership = Membership(member=member, membershipType=membershipTypeObject)
-        membership.save()
+            membership = Membership(member=member, membershipType=membershipTypeObject)
+            membership.save()
 
-        return Response('Account successfully registered!', status=status.HTTP_201_CREATED)
+            return Response('Account successfully registered!', status=status.HTTP_201_CREATED)
 
 
 class AccountRegistrationContView(generics.GenericAPIView):
